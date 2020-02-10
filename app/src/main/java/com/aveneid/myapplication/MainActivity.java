@@ -11,6 +11,7 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import android.content.Context;
 
 import android.os.Debug;
 import android.util.Log;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import static android.app.PendingIntent.getActivities;
 import static android.app.PendingIntent.getActivity;
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putInt("randomCuriosityId", randomCuriosityId);
         super.onSaveInstanceState(savedInstanceState);
     }
-    void listfiles(){
-        String path = getApplicationInfo().dataDir + "/databases";
+    void listfiles( String p){
+        String path = getApplicationInfo().dataDir + p;
         Log.d("Files", "Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
@@ -53,11 +55,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context contextNew = this;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DatabaseHelper db = new DatabaseHelper(this);
-        //listfiles();
+        DatabaseHelper db = new DatabaseHelper(contextNew,"dataset",1);
+       // listfiles("");
+        //listfiles("/databases");
+        //listfiles("/files");
 
         Log.d("",db.getDatabaseName());
 
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             randomCuriosityId = savedInstanceState.getInt("randomCuriosityId");
         else {
             randomCuriosityId = (int) (Math.random() * db.getRows("curiosities") + 1);
-            //Toast.makeText(getApplicationContext(),""+randomCuriosityId,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),""+randomCuriosityId,Toast.LENGTH_SHORT).show();
         }
 
        /* FloatingActionButton fab = findViewById(R.id.fab);
