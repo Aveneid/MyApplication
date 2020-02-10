@@ -1,6 +1,8 @@
 package com.aveneid.myapplication;
 
 import android.content.ContextWrapper;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.navigation.NavController;
@@ -59,12 +61,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DatabaseHelper db = new DatabaseHelper(contextNew,"dataset",1);
-       // listfiles("");
-        //listfiles("/databases");
-        //listfiles("/files");
+        DatabaseHelper db = new DatabaseHelper(contextNew,"dataset.db",1);
 
-        Log.d("",db.getDatabaseName());
+        try {
+            db.openDatabase(SQLiteDatabase.OPEN_READONLY );
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(),e.toString() + "ioexception",Toast.LENGTH_SHORT).show();
+        } catch (SQLiteException e) {
+            Toast.makeText(getApplicationContext(),e.toString()+"sqliteexception",Toast.LENGTH_SHORT).show();
+        }
+
 
 
         if (savedInstanceState != null)
