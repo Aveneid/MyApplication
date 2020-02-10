@@ -71,8 +71,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),e.toString()+"sqliteexception",Toast.LENGTH_SHORT).show();
         }
 
+        Toast.makeText(getApplicationContext(),db.getDatabaseName(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),db.getReadableDatabase().toString(),Toast.LENGTH_SHORT).show();
 
-
+/*
         if (savedInstanceState != null)
             randomCuriosityId = savedInstanceState.getInt("randomCuriosityId");
         else {
