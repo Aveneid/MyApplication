@@ -5,11 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
+import android.util.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private Context        mContext;
@@ -114,7 +116,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return count;
     }
+    public void getDatabaseStructure() {
 
+        Cursor c = db.rawQuery(
+                "SELECT name FROM sqlite_master WHERE type='table'", null);
+        ArrayList<String[]> result = new ArrayList<String[]>();
+        int i = 0;
+        result.add(c.getColumnNames());
+        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+            String[] temp = new String[c.getColumnCount()];
+            for (i = 0; i < temp.length; i++) {
+                temp[i] = c.getString(i);
+              Log.d("TABLE - ",temp[i]);
+
+
+                Cursor c1 = db.rawQuery(
+                        "SELECT * FROM "+temp[i], null);
+                c1.moveToFirst();
+                String[] COLUMNS = c1.getColumnNames();
+                for(int j=0;j<COLUMNS.length;j++){
+                    c1.move(j);
+                    Log.d("    COLUMN - ",COLUMNS[j]);
+                }
+            }
+            result.add(temp);
+        }
+    }
     public Cursor makeQuery(String table, String[] columns){
 
         Cursor data = db.query(table,columns,null,null,null,null,null,null);

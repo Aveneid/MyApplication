@@ -1,6 +1,7 @@
 package com.aveneid.myapplication;
 
 import android.content.ContextWrapper;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(),db.getDatabaseName(),Toast.LENGTH_SHORT).show();
         Toast.makeText(getApplicationContext(),db.getReadableDatabase().toString(),Toast.LENGTH_SHORT).show();
-
+        db.getDatabaseStructure();
 /*
         if (savedInstanceState != null)
             randomCuriosityId = savedInstanceState.getInt("randomCuriosityId");
