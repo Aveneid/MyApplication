@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DatabaseHelper db = new DatabaseHelper(contextNew,"dataset.db",1);
+        DatabaseHelper db = new DatabaseHelper(contextNew,"dataset.db3",1);
 
         try {
             db.openDatabase(SQLiteDatabase.OPEN_READONLY );
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Toast.makeText(getApplicationContext(),db.getDatabaseName(),Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(),db.getReadableDatabase().toString(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),db.getReadableDatabase().toString(),Toast.LENGTH_LONG).show();
         db.getDatabaseStructure();
 /*
         if (savedInstanceState != null)

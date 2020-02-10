@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -59,6 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             try {
                 iStream = mContext.getAssets().open(mDbName);
                 oStream = new FileOutputStream(mDbPath + mDbName);
+                Log.d("database copy path",mContext.getAssets() + mDbName);
                 byte[]       buffer  = new byte[1024];
                 int          length;
 
@@ -127,17 +129,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String[] temp = new String[c.getColumnCount()];
             for (i = 0; i < temp.length; i++) {
                 temp[i] = c.getString(i);
-              Log.d("TABLE - ",temp[i]);
+                Toast.makeText(mContext,"TABLE - "+temp[i],Toast.LENGTH_LONG).show();
 
-
-                Cursor c1 = db.rawQuery(
-                        "SELECT * FROM "+temp[i], null);
-                c1.moveToFirst();
-                String[] COLUMNS = c1.getColumnNames();
-                for(int j=0;j<COLUMNS.length;j++){
-                    c1.move(j);
-                    Log.d("    COLUMN - ",COLUMNS[j]);
-                }
             }
             result.add(temp);
         }
